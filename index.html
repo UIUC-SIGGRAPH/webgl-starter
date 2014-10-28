@@ -1,0 +1,60 @@
+<!-- Code adapted from http://learningwebgl.com/blog/?p=28 -->
+<!DOCTYPE html>
+<html>
+    <!-- The head is where we load our scripts. -->
+    <head>
+        <script src="webgl-debug.js"></script> <!-- Debug library for WebGL. -->
+        <script src="glMatrix-0.9.5.min.js"></script> <!-- Custom library for Javascript matrices. -->
+        <script src="script.js"></script>
+        <script id="shader-fs" type="x-shader/x-fragment">
+            /* This is a fragment shader. A fragment refers to a single pixel generated
+             * as the result of vertices being rendered. Fragment shaders manipulate
+             * those generated pixels. In this case, the fragment shader is setting
+             * the color of the pixels. Shaders are run on the graphics card in parallel, 
+             * and are written in a special shading language, GLSL, which is similar to C.*/
+             
+            /* This sets the precision of all floats in the shader to medium, 
+             * for performance reasons. */
+            precision mediump float;
+
+            void main(void) 
+            {
+                // gl_FragColor is an internal variable representing the color of the fragment.
+                gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+            }
+        </script>
+
+        <script id="shader-vs" type="x-shader/x-vertex">
+            /* This is a vertex shader. Vertex shaders manipulate the properties of the vertices.
+             * In this case, the vertex shader is setting vertex positions, and applying any
+             * matrix transformations to them. Shaders are run on the graphics card in parallel, 
+             * and are written in a special shading language, GLSL, which is similar to C.*/
+        
+            // An attribute is unique to every vertex in the supplied vertex array. 
+            attribute vec3 vertexPosition;
+
+            // A uniform is the same for every vertex in the supplied vertex array.
+            uniform mat4 modelViewMatrix;
+            uniform mat4 perspectiveMatrix;
+
+            void main(void) 
+            {
+                /* gl_Position is an internal variable representing the vertex's position.
+                 * This line applies the perspective and model-view matrix transformations
+                 * to the vertex position attribute. */
+                gl_Position = perspectiveMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
+            }
+        </script>
+    </head>
+    <!-- The body defines what the page will look like.
+         On load, the Javascript function webGLstart()
+         will be called. -->
+    <body onload="webGLStart()">
+        <h1>My first WebGL app!</h1>
+        <!-- All our WebGL stuff will be drawn to this canvas. -->
+        <canvas id="gl-canvas" style="border: none;" width="500" height="500"></canvas>
+    </body>
+</html>
+    
+        
+        
